@@ -1,0 +1,127 @@
+.admin-dashboard-page {
+  padding-top: var(--s-12);
+  padding-bottom: var(--s-16);
+}
+
+.admin-brand {
+  display: flex;
+  align-items: center;
+  gap: var(--s-4);
+}
+
+.admin-icon {
+  color: var(--c-primary);
+  background-color: var(--c-bg-secondary);
+  padding: var(--s-2);
+  border-radius: var(--r-sm);
+  width: 48px;
+  height: 48px;
+}
+
+.admin-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: var(--s-6);
+}
+
+.admin-stat-card {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--c-bg-secondary);
+  padding: var(--s-6);
+  border-radius: var(--r-sm);
+  border-top: 4px solid var(--c-primary);
+}
+
+.admin-stat-card:first-child {
+  border-top-color: var(--c-critical);
+}
+.admin-stat-card:nth-child(2) {
+  border-top-color: var(--c-warning);
+}
+
+.text-critical {
+  color: var(--c-critical);
+}
+.text-warning {
+  color: var(--c-warning);
+}
+
+.admin-tabs {
+  display: flex;
+  gap: var(--s-4);
+  overflow-x: auto;
+}
+
+.tab-btn {
+  display: flex;
+  align-items: center;
+  gap: var(--s-2);
+  padding: var(--s-3) var(--s-6);
+  font-weight: 600;
+  color: var(--c-text-muted);
+  border-bottom: 2px solid transparent;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+.tab-btn:hover {
+  color: var(--c-primary);
+  background-color: rgba(17, 19, 24, 0.02);
+}
+
+.tab-btn.active {
+  color: var(--c-primary);
+  border-bottom-color: var(--c-primary);
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--s-6);
+}
+
+.admin-table {
+  width: 100%;
+}
+
+.text-right {
+  text-align: right;
+}
+
+.flag-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-1);
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: var(--s-1) var(--s-2);
+  background-color: rgba(217, 138, 0, 0.1);
+  color: var(--c-warning);
+  border-radius: var(--r-sm);
+}
+
+.flag-badge.critical {
+  background-color: rgba(217, 71, 71, 0.1);
+  color: var(--c-critical);
+}
+
+.actions-cell {
+  display: flex;
+  gap: var(--s-2);
+  justify-content: flex-end;
+}
+
+.btn-sm {
+  padding: var(--s-2) var(--s-4);
+  font-size: 0.875rem;
+}
+
+@media (max-width: 768px) {
+  .section-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--s-4);
+  }
+}

@@ -1,0 +1,142 @@
+.dashboard-page {
+  padding-top: var(--s-12);
+  padding-bottom: var(--s-16);
+}
+
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+.welcome-section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-2);
+}
+
+.college-name {
+  color: var(--c-accent);
+}
+
+.dashboard-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: var(--s-6);
+}
+
+.stat-card {
+  display: flex;
+  align-items: center;
+  gap: var(--s-4);
+  background-color: var(--c-bg-secondary);
+  padding: var(--s-6);
+  border-radius: var(--r-sm);
+}
+
+.stat-icon {
+  color: var(--c-primary);
+  opacity: 0.5;
+}
+
+.stat-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.stat-value {
+  font-family: var(--font-heading);
+  font-size: 2rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.stat-label {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--c-text-muted);
+  margin-top: var(--s-1);
+}
+
+.section-heading {
+  font-family: var(--font-sans);
+  font-size: 1.25rem;
+  margin-bottom: var(--s-6);
+}
+
+.issue-table {
+  width: 100%;
+}
+
+.table-header {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  padding-bottom: var(--s-4);
+  border-bottom: 2px solid var(--c-primary);
+}
+
+.th {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  color: var(--c-text-muted);
+}
+
+.table-row {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  padding: var(--s-4) 0;
+  border-bottom: 1px solid rgba(17, 19, 24, 0.1);
+  align-items: center;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.table-row:hover {
+  background-color: rgba(17, 19, 24, 0.02);
+}
+
+.td {
+  font-size: 0.875rem;
+}
+
+.title-cell {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-1);
+}
+
+.title-cell strong {
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.location-subtext {
+  color: var(--c-text-muted);
+  font-size: 0.75rem;
+}
+
+.status-cell {
+  display: flex;
+  align-items: center;
+  gap: var(--s-2);
+  font-weight: 600;
+}
+
+@media (max-width: 768px) {
+  .dashboard-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--s-6);
+  }
+  
+  .table-header {
+    display: none;
+  }
+  
+  .table-row {
+    grid-template-columns: 1fr;
+    gap: var(--s-2);
+  }
+}
