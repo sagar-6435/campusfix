@@ -17,7 +17,7 @@ const ExplorePage = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch('http://localhost:5000/api/colleges')
+    fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/colleges`)
       .then(res => res.json())
       .then(data => {
         setColleges(data);

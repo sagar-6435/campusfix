@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Shield, Flag, Users, Activity, CheckCircle, AlertTriangle } from 'lucide-react';
+import { Shield, Users, Activity } from 'lucide-react';
 import './AdminDashboardPage.css';
 
 interface User {
@@ -20,7 +20,7 @@ const AdminDashboardPage = () => {
   useEffect(() => {
     if (activeTab === 'users') {
       setLoading(true);
-      fetch('http://localhost:5000/api/admin/users', {
+      fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/admin/users`, {
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('adminToken')}`
         }
@@ -31,7 +31,7 @@ const AdminDashboardPage = () => {
       .finally(() => setLoading(false));
     } else if (activeTab === 'reports') {
       setLoading(true);
-      fetch('http://localhost:5000/api/admin/reports', {
+      fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/admin/reports`, {
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('adminToken')}`
         }
@@ -45,7 +45,7 @@ const AdminDashboardPage = () => {
 
   const updateStatus = async (id: string, newStatus: string) => {
     try {
-      const res = await fetch(`http://localhost:5000/api/admin/reports/${id}/status`, {
+      const res = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/admin/reports/${id}/status`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

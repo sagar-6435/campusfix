@@ -9,7 +9,7 @@ const CampusPage = () => {
   const [reports, setReports] = useState<any[]>([]);
 
   useEffect(() => {
-    fetch(`http://localhost:5000/api/colleges/${slug}`)
+    fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/colleges/${slug}`)
       .then(res => res.json())
       .then(data => {
         if (data && data.name) {
@@ -23,7 +23,7 @@ const CampusPage = () => {
         setCollegeName(slug?.toUpperCase() || 'College');
       });
 
-    fetch(`http://localhost:5000/api/reports/public/${slug}`)
+    fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/reports/public/${slug}`)
       .then(res => res.json())
       .then(data => setReports(data))
       .catch(err => console.error('Failed to fetch reports:', err));

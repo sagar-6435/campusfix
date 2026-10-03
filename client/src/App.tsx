@@ -7,7 +7,7 @@ import CampusPage from './pages/CampusPage';
 import IssueDetailsPage from './pages/IssueDetailsPage';
 import LoginPage from './pages/LoginPage';
 import Signup from './pages/Signup';
-import ResetPassword from './pages/Reset-password';
+import ResetPassword from './pages/Reset-Password';
 import VerifyPage from './pages/VerifyPage';
 import DashboardPage from './pages/students/DashboardPage';
 import ReportPage from './pages/students/ReportPage';

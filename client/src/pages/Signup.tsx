@@ -20,7 +20,7 @@ const Signup = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch('http://localhost:5000/api/colleges')
+    fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/colleges`)
       .then(res => res.json())
       .then(data => setColleges(data))
       .catch(err => console.error('Failed to fetch colleges:', err));
@@ -56,7 +56,7 @@ const Signup = () => {
 
     try {
       // In a passwordless system, signup is the same as requesting an OTP
-      const response = await fetch('http://localhost:5000/api/auth/request-otp', {
+      const response = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/auth/request-otp`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email })

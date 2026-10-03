@@ -23,7 +23,7 @@ const DashboardPage = () => {
     const token = localStorage.getItem('token');
     if (!token) return;
 
-    fetch('http://localhost:5000/api/auth/me', {
+    fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/auth/me`, {
       headers: { 'Authorization': `Bearer ${token}` }
     })
       .then(res => res.json())
@@ -37,12 +37,12 @@ const DashboardPage = () => {
         }
 
         if (slug) {
-          fetch(`http://localhost:5000/api/colleges/${slug}`)
+          fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/colleges/${slug}`)
             .then(res => res.json())
             .then((cData: College) => setCollegeName(cData.name || slug.toUpperCase()))
             .catch(() => setCollegeName(slug.toUpperCase()));
             
-          fetch(`http://localhost:5000/api/reports/college`, {
+          fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/reports/college`, {
             headers: { 'Authorization': `Bearer ${token}` }
           })
             .then(res => res.json())
@@ -65,7 +65,7 @@ const DashboardPage = () => {
     if (!token) return;
 
     try {
-      const res = await fetch(`http://localhost:5000/api/reports/${reportId}/vote`, {
+      const res = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/reports/${reportId}/vote`, {
         method: 'PUT',
         headers: { 'Authorization': `Bearer ${token}` }
       });

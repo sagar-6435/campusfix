@@ -24,7 +24,7 @@ const VerifyPage = () => {
     setEmail(savedEmail);
     if (savedSlug) {
       setCollegeSlug(savedSlug);
-      fetch(`http://localhost:5000/api/colleges/${savedSlug}`)
+      fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/colleges/${savedSlug}`)
         .then(res => res.json())
         .then(data => {
           if (data && data.name) setCollegeName(data.name);
@@ -65,7 +65,7 @@ const VerifyPage = () => {
     setError('');
 
     try {
-      const response = await fetch('http://localhost:5000/api/auth/verify-otp', {
+      const response = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/auth/verify-otp`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, otp: otpString, college_slug: collegeSlug })
@@ -114,7 +114,9 @@ const VerifyPage = () => {
                 value={digit}
                 onChange={(e) => handleChange(index, e.target.value)}
                 onKeyDown={(e) => handleKeyDown(index, e)}
-                ref={(el) => (inputRefs.current[index] = el)}
+                ref={(el) => {
+                  inputRefs.current[index] = el;
+                }}
                 autoFocus={index === 0}
               />
             ))}
