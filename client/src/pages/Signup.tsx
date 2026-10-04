@@ -16,7 +16,13 @@ const Signup = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [showDropdown, setShowDropdown] = useState(false);
   const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
   const [loading, setLoading] = useState(false);
+  
+  const [noCollegeEmail, setNoCollegeEmail] = useState(false);
+  const [personalEmail, setPersonalEmail] = useState('');
+  const [proofFile, setProofFile] = useState<File | null>(null);
+  
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -72,6 +78,45 @@ const Signup = () => {
       localStorage.setItem('pendingCollegeSlug', selectedCollegeSlug);
       // If we had a name field in the backend, we would store it too
       navigate('/verify');
+    } catch (err: any) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleProofSignup = async () => {
+    if (!selectedCollegeSlug) {
+      setError('Please select your college from the search.');
+      return;
+    }
+    if (!personalEmail || !proofFile) {
+      setError('Please fill all fields and upload a proof document.');
+      return;
+    }
+    
+    setLoading(true);
+    setError('');
+    setSuccess('');
+
+    const formData = new FormData();
+    formData.append('personal_email', personalEmail);
+    formData.append('college_name', searchQuery);
+    formData.append('college_slug', selectedCollegeSlug);
+    formData.append('proof', proofFile);
+
+    try {
+      const response = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/auth/register-with-proof`, {
+        method: 'POST',
+        body: formData
+      });
+
+      const data = await response.json();
+      if (!response.ok) throw new Error(data.error || 'Failed to submit registration');
+
+      setSuccess('Registration submitted! Our team will review your proof. You will receive an email once approved.');
+      setPersonalEmail('');
+      setProofFile(null);
     } catch (err: any) {
       setError(err.message);
     } finally {
@@ -144,6 +189,36 @@ const Signup = () => {
             )}
           </div>
 
+          {noCollegeEmail ? (
+            <>
+              <input 
+                type="email" 
+                className="editorial-input lg mb-4" 
+                placeholder="Personal Email (e.g. gmail.com)"
+                value={personalEmail}
+                onChange={(e) => setPersonalEmail(e.target.value)}
+              />
+              <div className="mb-4">
+                <label className="text-meta" style={{ display: 'block', marginBottom: '8px' }}>Upload College Proof (ID Card, Allotment Letter)</label>
+                <input 
+                  type="file" 
+                  accept="image/*,.pdf"
+                  onChange={(e) => setProofFile(e.target.files ? e.target.files[0] : null)}
+                  className="editorial-input lg"
+                />
+              </div>
+
+              {error && <p className="error-text mb-6">{error}</p>}
+              {success && <p className="success-text mb-6" style={{ color: 'green' }}>{success}</p>}
+              {!error && !success && <div className="mb-6"></div>}
+
+              <button className="btn btn-primary btn-large w-full mb-4" onClick={handleProofSignup} disabled={loading}>
+                {loading ? 'Submitting...' : 'Submit for Approval'}
+              </button>
+            </>
+          ) : (
+            <>
+
           <input 
             type="text" 
             className="editorial-input lg mb-4" 
@@ -163,12 +238,24 @@ const Signup = () => {
             }}
           />
           
+          
           {error && <p className="error-text mb-6">{error}</p>}
           {!error && <div className="mb-6"></div>}
           
           <button className="btn btn-primary btn-large w-full mb-4" onClick={handleSignup} disabled={loading}>
             {loading ? 'Sending Verification Code...' : 'Create Account'}
           </button>
+          </>
+          )}
+
+          <div style={{ textAlign: 'center', margin: '1rem 0' }}>
+            <button 
+              className="btn btn-text" 
+              onClick={() => { setNoCollegeEmail(!noCollegeEmail); setError(''); setSuccess(''); }}
+            >
+              {noCollegeEmail ? "I have a college email" : "Don't have a college email?"}
+            </button>
+          </div>
           
           <div className="login-links" style={{ textAlign: 'center', marginTop: '1rem', fontSize: '0.9rem', color: '#666' }}>
             Already have an account? <Link to="/login" style={{ color: '#000', fontWeight: 'bold', textDecoration: 'none' }}>Sign In</Link>

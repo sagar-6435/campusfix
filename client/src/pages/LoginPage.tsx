@@ -15,14 +15,6 @@ const LoginPage = () => {
       return;
     }
 
-    const domain = email.split('@')[1];
-    const invalidDomains = ['gmail.com', 'yahoo.com', 'outlook.com', 'hotmail.com'];
-    
-    if (invalidDomains.includes(domain)) {
-      setError('Please use your official college email domain.');
-      return;
-    }
-    
     setLoading(true);
     setError('');
 

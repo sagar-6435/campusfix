@@ -1,5 +1,5 @@
 import { Link, useNavigate } from 'react-router-dom';
-import { Search, User } from 'lucide-react';
+import { User } from 'lucide-react';
 import './Navbar.css';
 
 const Navbar = () => {
@@ -27,9 +27,6 @@ const Navbar = () => {
         <Link to="/about" className="nav-link">About</Link>
       </div>
       <div className="navbar-right">
-        <button className="icon-btn" aria-label="Search">
-          <Search size={20} />
-        </button>
         {isAuthenticated ? (
           <button className="nav-link hidden-mobile" onClick={handleLogout} style={{background: 'none', border: 'none', cursor: 'pointer', fontSize: '16px'}}>
             Sign out

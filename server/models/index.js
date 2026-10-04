@@ -2,14 +2,19 @@ const mongoose = require('mongoose');
 
 const collegeSchema = new mongoose.Schema({
   name: String,
-  slug: { type: String, unique: true }
+  slug: { type: String, unique: true },
+  is_active: { type: Boolean, default: true }
 });
 const College = mongoose.model('College', collegeSchema);
 
 const userSchema = new mongoose.Schema({
-  email: { type: String, unique: true },
+  email: { type: String, unique: true, sparse: true },
+  personal_email: { type: String, unique: true, sparse: true },
   is_verified: { type: Boolean, default: false },
   college_slug: String,
+  college_name: String,
+  college_proof_url: String,
+  approval_status: { type: String, default: 'Approved', enum: ['Approved', 'Pending', 'Rejected'] },
   created_at: { type: Date, default: Date.now }
 });
 const User = mongoose.model('User', userSchema);

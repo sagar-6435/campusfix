@@ -1,10 +1,25 @@
 const { User, Otp } = require('../models');
 const transporter = require('../config/nodemailer');
 const jwt = require('jsonwebtoken');
+const cloudinary = require('../config/cloudinary');
+const fs = require('fs');
 
 exports.requestOtp = async (req, res) => {
   const { email } = req.body;
-  if (!email || !email.includes('@')) return res.status(400).json({ error: 'Valid college email is required' });
+  if (!email || !email.includes('@')) return res.status(400).json({ error: 'Valid email is required' });
+
+  const domain = email.split('@')[1].toLowerCase();
+  const personalDomains = ['gmail.com', 'yahoo.com', 'outlook.com', 'hotmail.com'];
+  
+  if (personalDomains.includes(domain)) {
+    const user = await User.findOne({ $or: [{ email: email }, { personal_email: email }] });
+    if (!user) {
+      return res.status(404).json({ error: 'Email not registered. Please sign up first.' });
+    }
+    if (user.approval_status && user.approval_status !== 'Approved') {
+      return res.status(403).json({ error: 'Your account is pending approval or rejected.' });
+    }
+  }
 
   const otp = Math.floor(100000 + Math.random() * 900000).toString();
   try {
@@ -64,6 +79,37 @@ exports.getMe = async (req, res) => {
     res.json({ ...user.toObject(), id: user._id });
   } catch (err) {
     console.error('Error fetching user:', err);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+};
+
+exports.registerWithProof = async (req, res) => {
+  const { personal_email, college_name, college_slug } = req.body;
+  if (!personal_email || !college_name || !req.file) {
+    return res.status(400).json({ error: 'Personal email, college name, and proof are required' });
+  }
+
+  try {
+    const result = await cloudinary.uploader.upload(req.file.path, { folder: 'campusfix/proof' });
+    const college_proof_url = result.secure_url;
+    if (fs.existsSync(req.file.path)) fs.unlinkSync(req.file.path);
+
+    const user = await User.create({
+      personal_email,
+      email: personal_email, // Set email to personal_email for login
+      college_name,
+      college_slug,
+      college_proof_url,
+      approval_status: 'Pending',
+      is_verified: false
+    });
+
+    res.json({ success: true, message: 'Registration submitted for admin approval.' });
+  } catch (err) {
+    if (err.code === 11000) {
+       return res.status(400).json({ error: 'Email already registered' });
+    }
+    console.error('Error registering with proof:', err);
     res.status(500).json({ error: 'Internal server error' });
   }
 };

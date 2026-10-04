@@ -9,6 +9,8 @@ const VerifyPage = () => {
   const [otp, setOtp] = useState(['', '', '', '', '', '']);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [resending, setResending] = useState(false);
+  const [resendMessage, setResendMessage] = useState('');
   const navigate = useNavigate();
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
 
@@ -51,6 +53,32 @@ const VerifyPage = () => {
   const handleKeyDown = (index: number, e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Backspace' && otp[index] === '' && index > 0) {
       inputRefs.current[index - 1]?.focus();
+    }
+  };
+
+  const handleResendOTP = async () => {
+    setResending(true);
+    setError('');
+    setResendMessage('');
+
+    try {
+      const response = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/auth/request-otp`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email })
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Failed to resend OTP');
+      }
+
+      setResendMessage('OTP has been resent to your email.');
+    } catch (err: any) {
+      setError(err.message);
+    } finally {
+      setResending(false);
     }
   };
 
@@ -125,10 +153,14 @@ const VerifyPage = () => {
           {error && <p className="error-text mb-4" style={{textAlign: 'center'}}>{error}</p>}
           {!error && <div className="mb-8"></div>}
 
-          <button className="btn btn-primary btn-large w-full" onClick={handleVerify} disabled={loading}>
+          {resendMessage && <p className="success-text mb-4" style={{textAlign: 'center', color: '#4caf50', fontSize: '0.9rem'}}>{resendMessage}</p>}
+          <button className="btn btn-primary btn-large w-full" onClick={handleVerify} disabled={loading || resending}>
             {loading ? 'Verifying...' : 'Verify & Sign In'}
           </button>
-          <button className="btn btn-text w-full mt-4" onClick={() => navigate('/login')}>
+          <button className="btn btn-text w-full mt-4" onClick={handleResendOTP} disabled={resending || loading}>
+            {resending ? 'Resending...' : 'Resend OTP'}
+          </button>
+          <button className="btn btn-text w-full mt-2" onClick={() => navigate('/login')}>
             Use a different email
           </button>
         </div>
