@@ -89,6 +89,24 @@ const LandingPage = () => {
             </div>
           </div>
         </section>
+
+        <section className="mobile-quick-links mt-8">
+          <h3 className="sub-heading mb-4">QUICK LINKS</h3>
+          <div className="mobile-links-grid">
+            <button className="mobile-link-card" onClick={() => navigate('/colleges')}>
+              <span>Explore Colleges</span>
+              <ArrowRight size={16} />
+            </button>
+            <button className="mobile-link-card" onClick={() => navigate('/how-it-works')}>
+              <span>How it works</span>
+              <ArrowRight size={16} />
+            </button>
+            <button className="mobile-link-card" onClick={() => navigate('/about')}>
+              <span>About CampusFix</span>
+              <ArrowRight size={16} />
+            </button>
+          </div>
+        </section>
       </div>
     </div>
   );

@@ -38,7 +38,7 @@ const ExplorePage = () => {
   return (
     <div className="explore-page container">
       <header className="explore-header">
-        <h1 className="text-hero">FIND YOUR CAMPUS.</h1>
+
         <div className="search-container mt-8">
           <Search className="search-icon" size={24} />
           <input 
