@@ -31,7 +31,9 @@ exports.requestOtp = async (req, res) => {
       html: `<div style="font-family: sans-serif; padding: 20px;">
           <h2>CampusFix Verification</h2>
           <p>Your one-time password (OTP) is:</p>
-          <h1 style="color: #2457FF; letter-spacing: 4px;">${otp}</h1>
+          <div style="background-color: #f4f4f4; padding: 15px; border-radius: 5px; display: inline-block; margin: 10px 0;">
+            <h1 style="color: #2457FF; margin: 0; font-size: 32px;">${otp}</h1>
+          </div>
           <p>This code will expire in 10 minutes. Do not share it with anyone.</p>
         </div>`,
     });

@@ -56,6 +56,24 @@ const VerifyPage = () => {
     }
   };
 
+  const handlePaste = (e: React.ClipboardEvent<HTMLInputElement>) => {
+    e.preventDefault();
+    const pasteData = e.clipboardData.getData('text/plain').replace(/\D/g, '').slice(0, 6);
+    if (pasteData) {
+      const newOtp = [...otp];
+      pasteData.split('').forEach((char, index) => {
+        if (index < 6) newOtp[index] = char;
+      });
+      setOtp(newOtp);
+      const focusIndex = Math.min(pasteData.length, 5);
+      if (pasteData.length === 6) {
+        inputRefs.current[5]?.focus();
+      } else {
+        inputRefs.current[focusIndex]?.focus();
+      }
+    }
+  };
+
   const handleResendOTP = async () => {
     setResending(true);
     setError('');
@@ -142,6 +160,7 @@ const VerifyPage = () => {
                 value={digit}
                 onChange={(e) => handleChange(index, e.target.value)}
                 onKeyDown={(e) => handleKeyDown(index, e)}
+                onPaste={handlePaste}
                 ref={(el) => {
                   inputRefs.current[index] = el;
                 }}
