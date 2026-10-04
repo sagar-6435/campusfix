@@ -5,7 +5,6 @@ import './AdminDashboardPage.css';
 interface User {
   id: number;
   email: string;
-  email: string;
   personal_email?: string;
   college_name?: string;
   college_slug?: string;
