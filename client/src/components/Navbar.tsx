@@ -17,7 +17,7 @@ const Navbar = () => {
     <nav className="navbar container">
       <div className="navbar-left">
         <Link to="/" className="brand-logo">
-          <img src="src\assets\logo.png" alt="CampusFix" style={{width:"60px",height:"60px"}} />
+          <img src={new URL('../assets/logo.png', import.meta.url).href} alt="CampusFix" style={{width:"60px",height:"60px"}} />
           CampusFix
         </Link>
       </div>
