@@ -1,3 +1,4 @@
 const multer = require('multer');
-const upload = multer({ dest: 'uploads/' });
+const os = require('os');
+const upload = multer({ dest: os.tmpdir() });
 module.exports = upload;
